@@ -1,4 +1,7 @@
 
+TODO:cleanup/revise information herein is no longer valid
+
+
 # vibe:namespaces
 
 vibe:namespaces adds namespaces to your Meteor applications and packages.
