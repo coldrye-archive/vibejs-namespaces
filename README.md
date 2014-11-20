@@ -2,48 +2,57 @@
 TODO:cleanup/revise information herein is no longer valid
 
 
-# vibe:namespaces
+# namespaces
 
-vibe:namespaces adds namespaces to your Meteor applications and packages.
 
-Besides of that, vibe:namespaces is actually agnostic to the environment it
-is running in.
+## Introduction
+
+namespaces adds sophisticated namespace support to your Javascript/Coffee-Script applications.
+
+
+### Motivation
+
+namespaces was primarily implemented for use with Coffee-Script in conjunction with Meteor to overcome
+both its current "limitations" with ordering of and packaging the existing source files for 
+deployment and to leverage the overhead of authoring the package descriptor package.js.
+
+With namespaces, one can simply use api.addFiles(...) instead of also having to export individual
+entities by their name.
+
+Also, the available libraries that add namespace support to one's application simply did not meet
+our overall requirements.
+
+
+### Features
+
+ - namespace factory registered with the global object
+ - namespaces can be extended either on creation or afterwards using the Namespace#nsExtend method
+ - namespaces can be bound to either the global context or a custom context
+ - namespaces can be frozen so that they can no longer be extended
+ - namespaces can be traversed using Namespace#nsParent or Namespace#nsChildren(...)
+ - vibe.namespace namespace exposing the namespace function, the Namespace class and 
+   a few other useful things
+ - COMING SOON: namespaces can be made non enumerable, making them sort of private/internal
 
 
 ## Installation
 
-You can install vibe:namespaces in multiple different ways.
+You can install namespaces in multiple different ways.
 
 
-### Install from Atmosphere
+### NPM
 
-This is the most easiest way to install the package. Just run
-
-    meteor add 'vibe:namespaces'
-
-and off you go.
+    npm [-g] install namespaces
 
 
-### Install into Packages Folder
+### Meteor
 
-You might also want to install the vibe:namespaces package into your Meteor
-application's packages folder. Either by cloning the repository directly or
-making it a submodule of your git repository.
-
-The benefit of such an installation will be that you can always have a look
-at the original sources, generate the require API documentation from these
-sources and, what is most benefitial, you can easily switch between release
-tags and even branches. Or, you might want to create your own temporary
-branch for tweaking things or testing things out.
-
-Once you have cloned the repository into your packages folder, simply run
-
-    meteor add 'vibe:namespaces'
-
-and off you go.
+    meteor add vibe:namespaces
 
 
-TODO:
+## Usage
+
+TODO
 
 /**
  * <h2>Usage</h2>
