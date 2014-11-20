@@ -40,7 +40,7 @@ latebind = (grunt) ->
             delete pkg.dependencies
 
             # the layout of the resulting package will be shallow
-            pkg.main = './index.js'
+            pkg.main = './namespaces.js'
 
             grunt.file.write target + 'package.json', JSON.stringify pkg, null, '    '
 
@@ -78,12 +78,6 @@ latebind = (grunt) ->
             for file in config.files.common
 
                 content += "    api.addFiles('#{file}');\n"
-
-                grunt.file.copy config.srcdir + '/' + file, target + '/' + file
-
-            for file in config.files.server
-
-                content += "    api.addFiles('#{file}', 'server');\n"
 
                 grunt.file.copy config.srcdir + '/' + file, target + '/' + file
 
@@ -155,12 +149,7 @@ module.exports = (grunt) ->
             files :
 
                 common : [
-                    'monkeypatch.js'
-                    'subclassof.js'
-                ]
-
-                server : [
-                    'macros.js'
+                    'namespaces.js'
                 ]
 
     grunt.registerTask 'clean', 'cleans all builds (./build)', ->
