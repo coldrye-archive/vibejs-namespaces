@@ -19,17 +19,18 @@ deployment and to leverage the overhead of authoring the package descriptor pack
 With namespaces, one can simply use api.addFiles(...) instead of also having to export individual
 entities by their name.
 
-Also, the available libraries that add namespace support to one's application simply did not meet
-our overall requirements.
+Having reviewed existing libraries that implement namespaces, it soon became clear that these libraries
+will simply not do the trick and that yet another namespace providing library needs to be made.
 
 
 ### Features
 
- - namespace factory registered with the global object
+ - namespace factory registered with the global object for declaring namespaces
  - namespaces can be extended either on creation or afterwards using the Namespace#nsExtend method
  - namespaces can be bound to either the global context or a custom context
  - namespaces can be frozen so that they can no longer be extended
- - namespaces can be traversed using Namespace#nsParent or Namespace#nsChildren(...)
+ - namespaces can be traversed using Namespace#nsParent or Namespace#nsChildren(...) or simply by
+   accessing the namespace objects directly from within their declaring context
  - vibe.namespace namespace exposing the namespace function, the Namespace class and 
    a few other useful things
  - COMING SOON: namespaces can be made non enumerable, making them sort of private/internal
@@ -40,7 +41,7 @@ our overall requirements.
 You can install namespaces in multiple different ways.
 
 
-### NPM
+### Node NPM
 
     npm [-g] install namespaces
 
@@ -52,53 +53,69 @@ You can install namespaces in multiple different ways.
 
 ## Usage
 
+
+### Node - Javascript
+
+    var util = require('util');
+    require('namespaces');
+
+    namespace('tool', { extend : { NAME : 'Ingenious Tool' } });
+
+    namespace('tool.core.commands');
+
+    var BaseCommand = function (name) { this.name = name; };
+    BaseCommand.prototype.execute = function () {};
+
+    var AboutCommand = function () { this.prototype.super_.call(this, 'about'); };
+    util.inherits(AboutCommand, BaseCommand);
+
+    AboutCommand.prototype.execute = function () {
+
+        console.log(tool.NAME + ": " + this.name);
+
+    tool.core.commands.nsExtend({
+        BaseCommand : BaseCommand,
+        AboutCommand : AboutCommand
+    });
+
+
+### Node - Coffee-Script
+
+    require 'namespaces'
+
+    namespace 'tool',
+
+        extend :
+
+            NAME : 'Ingenious Tool'
+
+    namespace 'tool.core.commands',
+
+        extend :
+
+            BaseCommand : class BaseCommand
+
+                constructor : (@name) ->
+
+                execute : ->
+
+            AboutCommand : class AboutCommand extends BaseCommand
+
+                constructor : ->
+
+                    super 'about'
+
+                execute : ->
+
+                    console.log "#{tool.NAME}: #{@name}"
+
+
+### Meteor - Javascript (both Client and Server)
+
 TODO
 
-/**
- * <h2>Usage</h2>
- *
- * <h3>Declaring a new Root Namespace in the Global Context</h3>
- *
- * <pre>
- * Namespaces.declare('tool', {
- *     f : function () {
- *         console.log('hello namespace');
- *     }
- * });
- * tool.f();
- * </pre>
- *
- * <h3>Declaring a Namespace hierarchy using Window as the Context</h3>
- *
- * <pre>
- * Namespaces.declare('tool.actions', {
- *     undo : function () {
- *         console.log('undoing');
- *     }},
- *     window
- * );
- * window.tool.actions.undo();
- * </pre>
- *
- * <h3>Declaring a Child Namespace</h3>
- *
- * <pre>
- * tool.declare('logging', {
- *     debug : function (msg) {
- *         console.log('debug: ' + msg);
- *     }}
- * );
- * tool.logging.debug('child namespace');
- * </pre>
- *
- * <h3>Extending an Existing Namespace</h3>
- *
- * <pre>
- * tool.extend({
- *     _f : tool.f, // save existing declaration of tool.f
- *     f : function () { console.log('f says:'); this._f(); },
- *     f2 : function () { console.log('hello from f2'); }
- * });
- * </pre>
- */
+
+### Meteor - Coffee-Script (both Client and Server)
+
+TODO
 
