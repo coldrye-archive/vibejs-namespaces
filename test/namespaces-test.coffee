@@ -189,25 +189,18 @@ vows
 
                 namespace 'toplevelns'
                 found = false
-                for key of vibe.namespace.nsDefaultContext
-
-                    if key == 'toplevelns'
-
-                        found = true
-                        break
-
-                assert.isTrue found
+                assert.isEnumerable vibe.namespace.nsDefaultContext, 'toplevelns'
 
                 delete vibe.namespace.nsDefaultContext['toplevelns']
 
-            'declared namespace must be a redefinable/deletable property of its context' : ->
+            'declared namespace must be a deletable property of its context' : ->
 
                 namespace 'toplevelns'
                 delete vibe.namespace.nsDefaultContext['toplevelns']
 
                 assert.isUndefined vibe.namespace.nsDefaultContext['toplevelns']
 
-            'must create hierarchy of vibe.namespace from a qualified identifier' : ->
+            'must create hierarchy of namespaces from a qualified identifier' : ->
 
                 sub = namespace 'toplevelns.sub'
                 top = vibe.namespace.nsDefaultContext['toplevelns']
@@ -216,7 +209,7 @@ vows
 
                 delete vibe.namespace.nsDefaultContext['toplevelns']
 
-            'must not redeclare existing vibe.namespace' : ->
+            'must not redeclare existing namespace' : ->
 
                 top = namespace 'toplevelns'
                 top.a = 1
