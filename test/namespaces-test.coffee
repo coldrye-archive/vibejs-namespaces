@@ -53,6 +53,28 @@ assert.isNotEnumerable = (obj, key, message = null) ->
         assert.fail null, null, message || "key '#{key}' is enumerable", "isNotEnumerable", assert.isNotEnumerable
 
 
+assert.isFrozen = (obj, message = null) ->
+
+    if obj is undefined or obj is null
+
+        throw new TypeError 'obj is null or undefined'
+
+    if not Object.isFrozen obj
+
+        assert.fail null, null, message || "obj is not frozen", "isFrozen", assert.isFrozen
+
+
+assert.isNotFrozen = (obj, message = null) ->
+
+    if obj is undefined or obj is null
+
+        throw new TypeError 'obj is null or undefined'
+
+    if Object.isFrozen obj
+
+        assert.fail null, null, message || "obj is frozen", "isNotFrozen", assert.isNotFrozen
+
+
 vows
     .describe 'vibe.namespace'
     .addBatch
@@ -313,17 +335,172 @@ vows
 
                 delete vibe.namespace.nsDefaultContext['toplevelns']
 
+        'namespace with option freeze set to true must' :
+
+            topic : ->
+
+                namespace 'frozentoplevelns',
+
+                    freeze : true
+
+                    extend :
+
+                        prop1 : 1
+
+            'freeze the namespace' : (topic) ->
+
+                assert.isFrozen topic
+
+            'prevent namespace properties from being altered' : (topic) ->
+
+                topic.prop1 = 5
+                assert.equal topic.prop1, 1
+
+            'prevent namespace properties from being deleted' : (topic) ->
+
+                delete topic.prop1
+                assert.isDefined topic.prop1
+                assert.equal topic.prop1, 1
+
+            'prevent the user from adding new properties' : (topic) ->
+
+                topic.prop2 = 2
+                assert.isUndefined topic.prop2
+
+            teardown : ->
+
+                delete vibe.namespace.nsDefaultContext['frozentoplevelns']
+
         'Namespace#nsExtend()' :
 
-            'TODO' : ->
+            topic : ->
 
-                assert.fail 'not implemented yet.'
+                namespace 'extendedtoplevelns',
+
+                    extend :
+
+                        prop1 : 1
+
+            'by default must not override existing properties' : (topic) ->
+
+                topic.nsExtend
+
+                    prop1 : 2
+
+                assert.equal topic.prop1, 1
+
+            'must override existing properties when told to do so' : (topic) ->
+
+                topic.nsExtend {
+
+                    prop1 : 2
+
+                }, true
+
+                assert.equal topic.prop1, 2
+
+            teardown : ->
+
+                delete vibe.namespace.nsDefaultContext['extendedtoplevelns']
 
         'Namespace#nsChildren()' :
 
-            'TODO' : ->
+            topic : ->
 
-                assert.fail 'not implemented yet.'
+                result = namespace 'filteredtoplevelns',
+
+                    extend :
+
+                        numprop : 1
+                        stringprop : '1'
+
+                result
+
+            'must not fail on filter begin explicitly defined as undefined' : (topic) ->
+
+                cb = ->
+
+                    topic.nsChildren(undefined)
+
+                assert.doesNotThrow cb, TypeError
+
+            'must fail on filter being an object without a filter function' : (topic) ->
+
+                cb = ->
+
+                    topic.nsChildren({})
+
+                assert.throws cb, TypeError
+
+            'must fail on filter being a simple type' : (topic) ->
+
+                cb = ->
+
+                    topic.nsChildren('filter')
+
+                assert.throws cb, TypeError
+
+            'must invoke the filter with both a key and a value' : (topic) ->
+
+                cb = ->
+
+                    topic.nsChildren (key, value) ->
+
+                        if key is undefined
+
+                            throw new Error 'no key provided'
+
+                        if value is undefined
+
+                            throw new Error 'no value provided'
+
+                 assert.doesNotThrow cb, Error
+
+            # test case fails due to some internal error in vows
+            'skipping:must invoke filter method or function defined on object' : (topic) ->
+
+                # skipping
+                return
+
+                obj =
+
+                    filter : (key, value) ->
+
+                        invoked = true
+
+                invoked = false
+                cb = ->
+
+                    topic.nsChildren obj
+
+                assert.doesNotThrow cb, TypeError
+                assert.isTrue invoked
+
+            'must return the filtered children as per the provided filter' : (topic) ->
+
+                cb = ->
+
+                    topic.nsChildren (key, value) ->
+
+                        if 'number' == typeof value
+
+                            return true
+
+                        return false
+
+                expected =
+
+                    numprop : 1
+
+                assert.deepEqual cb(), expected
+
+            'must return the namespace if no filter was specified' : (topic) ->
+
+                assert.deepEqual topic.nsChildren(), topic
+
+            teardown : ->
+
+                delete vibe.namespace.nsDefaultContext['filteredtoplevelns']
 
     .export module
 
