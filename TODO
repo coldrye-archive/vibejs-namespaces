@@ -5,6 +5,8 @@ TODO
 
 - missing meteor tests
 
+- missing debug log messages
+
 - generate changelog from tags
 
 - generate test/coverage result pages
