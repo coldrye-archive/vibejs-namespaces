@@ -1,7 +1,4 @@
 
-TODO:cleanup/revise information herein is no longer valid
-
-
 # namespaces
 
 
