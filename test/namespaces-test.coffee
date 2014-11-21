@@ -462,13 +462,13 @@ vows
                 # skipping
                 return
 
+                invoked = false
                 obj =
 
                     filter : (key, value) ->
 
                         invoked = true
 
-                invoked = false
                 cb = ->
 
                     topic.nsChildren obj
