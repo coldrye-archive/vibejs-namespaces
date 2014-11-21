@@ -178,7 +178,9 @@ class Namespace
 
                     for key of declarations
 
-                        @[key] = declarations[key] unless @[key] != undefined and not override
+                        if @[key] is undefined or override
+
+                            @[key] = declarations[key]
 
                         @_logger?.debug "Namespace:nsExtend:added #{key} = #{declarations[key]}"
 
@@ -241,7 +243,7 @@ class Namespace
                    'object' == typeof filter and (
                     filter.filter is undefined or 'function' != typeof filter.filter))
 
-                    throw new Error 'filter must be either a function or object with a filter method or function'
+                    throw new TypeError 'filter must be either a function or object with a filter method or function'
 
                 actualFilter = filter
 
