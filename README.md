@@ -1,5 +1,6 @@
 # vibejs-namespaces
 
+[![Build Status](https://travis-ci.org/vibejs/vibejs-namespaces.svg?branch=master)](https://travis-ci.org/vibejs/vibejs-namespaces)
 
 ## Introduction
 
