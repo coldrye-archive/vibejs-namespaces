@@ -1,21 +1,21 @@
 {
-  "name": "namespaces",
+  "name": "vibejs-namespaces",
   "version": "0.0.1",
   "description": "namespaces adds namespaces to your javascript/coffee-script application",
   "main": "./src/namespaces.coffee",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vibejs/namespaces.git"
+    "url": "https://github.com/vibejs/vibejs-namespaces.git"
   },
   "keywords": [
     "namespace"
   ],
-  "author": "Carsten Klein <trancesilken@gmail.com>",
+  "author": "vibejs <github.vibejs@gmail.com>",
   "license": "Apache License 2.0",
   "bugs": {
-    "url": "https://github.com/vibejs/namespaces/issues"
+    "url": "https://github.com/vibejs/vibejs-namespaces/issues"
   },
-  "homepage": "https://github.com/vibejs/namespaces",
+  "homepage": "https://github.com/vibejs/vibejs-namespaces",
   "dependencies": {
   },
   "devDependencies": {
