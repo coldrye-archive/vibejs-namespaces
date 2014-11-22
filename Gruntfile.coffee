@@ -59,7 +59,7 @@ latebind = (grunt) ->
             pkg = grunt.config.get 'pkg'
             config = grunt.config.get 'meteor'
 
-            packageName = "#{config.username}:#{pkg.name}"
+            packageName = "#{pkg.name.split('-')[0]}:#{pkg.name.substr(pkg.name.indexOf('-')+1)}"
             target = "./build/meteor/#{packageName}/"
 
             grunt.file.mkdir target
@@ -137,8 +137,6 @@ module.exports = (grunt) ->
                 ext : '.js'
 
         meteor:
-
-            username : 'vibe'
 
             srcdir : './build/javascript/src'
 
