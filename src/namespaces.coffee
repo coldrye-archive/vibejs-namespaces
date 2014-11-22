@@ -238,18 +238,14 @@ class Namespace
 
                 result = @
 
-                if filter != null and (
-                   'function' != typeof filter or
-                   'object' == typeof filter and (
-                    filter.filter is undefined or 'function' != typeof filter.filter))
-
-                    throw new TypeError 'filter must be either a function or object with a filter method or function'
-
                 actualFilter = filter
-
                 if filter != null and 'object' == typeof filter
 
                     actualFilter = filter.filter
+
+                if actualFilter is undefined
+
+                    throw new TypeError 'filter must be either a function or object with a filter method or function'
 
                 if actualFilter
 
@@ -257,7 +253,9 @@ class Namespace
 
                     for key of @
 
-                        result[key] = @[key] if actualFilter(key, @[key])
+                        if actualFilter(key, @[key])
+
+                            result[key] = @[key]
 
                 result
 

@@ -22,36 +22,7 @@ require '../src/namespaces'
 
 
 
-# add enumerable macro
-assert.isEnumerable = (obj, key, message = null) ->
-
-    if obj is undefined or obj is null
-
-        throw new TypeError 'obj is null or undefined'
-
-    if key is undefined or key is null or key == ''
-
-        throw new TypeError 'key is undefined or null or the empty string'
-
-    if not (key in Object.keys obj)
-
-        assert.fail null, null, message || "key '#{key}' is not enumerable", "isEnumerable", assert.isEnumerable
-
-
-assert.isNotEnumerable = (obj, key, message = null) ->
-
-    if obj is undefined or obj is null
-
-        throw new TypeError 'obj is null or undefined'
-
-    if key is undefined or key is null or key == ''
-
-        throw new TypeError 'key is undefined or null or the empty string'
-
-    if key in Object.keys obj
-
-        assert.fail null, null, message || "key '#{key}' is enumerable", "isNotEnumerable", assert.isNotEnumerable
-
+# add some required assertion macros
 
 assert.isFrozen = (obj, message = null) ->
 
@@ -61,7 +32,7 @@ assert.isFrozen = (obj, message = null) ->
 
     if not Object.isFrozen obj
 
-        assert.fail null, null, message || "obj is not frozen", "isFrozen", assert.isFrozen
+        assert.fail null, null, message || "expected obj to be frozen but was not", "isFrozen", assert.isFrozen
 
 
 assert.isNotFrozen = (obj, message = null) ->
@@ -72,7 +43,7 @@ assert.isNotFrozen = (obj, message = null) ->
 
     if Object.isFrozen obj
 
-        assert.fail null, null, message || "obj is frozen", "isNotFrozen", assert.isNotFrozen
+        assert.fail null, null, message || "expected obj to not be frozen but was", "isNotFrozen", assert.isNotFrozen
 
 
 vows
@@ -166,7 +137,7 @@ vows
 
                     namespace 'toplevelns', null
 
-                assert.doesNotThrow cb, Error
+                assert.doesNotThrow cb
                 assert.isTrue vibe.namespace.nsDefaultContext['toplevelns'] instanceof vibe.namespace.Namespace
                 assert.deepEqual vibe.namespace.nsDefaultContext['toplevelns'], {}
 
@@ -178,7 +149,7 @@ vows
 
                     namespace 'toplevelns', undefined
 
-                assert.doesNotThrow cb, Error
+                assert.doesNotThrow cb
                 assert.isTrue vibe.namespace.nsDefaultContext['toplevelns'] instanceof vibe.namespace.Namespace
                 assert.deepEqual vibe.namespace.nsDefaultContext['toplevelns'], {}
 
@@ -422,7 +393,7 @@ vows
 
                     topic.nsChildren(undefined)
 
-                assert.doesNotThrow cb, TypeError
+                assert.doesNotThrow cb
 
             'must fail on filter being an object without a filter function' : (topic) ->
 
@@ -454,13 +425,9 @@ vows
 
                             throw new Error 'no value provided'
 
-                 assert.doesNotThrow cb, Error
+                 assert.doesNotThrow cb
 
-            # test case fails due to some internal error in vows
-            'skipping:must invoke filter method or function defined on object' : (topic) ->
-
-                # skipping
-                return
+            'must invoke filter method or function defined on object' : (topic) ->
 
                 invoked = false
                 obj =
@@ -473,7 +440,7 @@ vows
 
                     topic.nsChildren obj
 
-                assert.doesNotThrow cb, TypeError
+                assert.doesNotThrow cb
                 assert.isTrue invoked
 
             'must return the filtered children as per the provided filter' : (topic) ->
