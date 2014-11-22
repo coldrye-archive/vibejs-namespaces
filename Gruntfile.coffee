@@ -38,6 +38,7 @@ latebind = (grunt) ->
             # we no longer have any dependencies except for node
             delete pkg.devDependencies
             delete pkg.dependencies
+            delete pkg.scripts
 
             # the layout of the resulting package will be shallow
             pkg.main = './namespaces.js'
