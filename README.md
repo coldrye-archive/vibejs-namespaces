@@ -1,10 +1,9 @@
-
-# namespaces
+# vibejs-namespaces
 
 
 ## Introduction
 
-namespaces adds sophisticated namespace support to your Javascript/Coffee-Script applications.
+*namespaces* adds sophisticated namespace support to your Javascript/Coffee-Script applications.
 
 
 ### Motivation
@@ -40,12 +39,12 @@ You can install namespaces in multiple different ways.
 
 ### Node NPM
 
-    npm [-g] install namespaces
+    npm [-g] install vibejs-namespaces
 
 
 ### Meteor
 
-    meteor add vibe:namespaces
+    meteor add vibejs:namespaces
 
 
 ## Usage
@@ -54,7 +53,7 @@ You can install namespaces in multiple different ways.
 ### Node - Javascript
 
     var util = require('util');
-    require('namespaces');
+    require('vibejs-namespaces');
 
     namespace('tool', { extend : { NAME : 'Ingenious Tool' } });
 
@@ -78,7 +77,7 @@ You can install namespaces in multiple different ways.
 
 ### Node - Coffee-Script
 
-    require 'namespaces'
+    require 'vibejs-namespaces'
 
     namespace 'tool',
 
