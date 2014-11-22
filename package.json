@@ -1,33 +1,36 @@
 {
-  "name": "vibejs-namespaces",
-  "version": "0.0.2",
-  "description": "namespaces adds namespaces to your javascript/coffee-script application",
-  "main": "./src/namespaces.coffee",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vibejs/vibejs-namespaces.git"
-  },
-  "keywords": [
-    "namespace"
-  ],
-  "author": "vibejs <github.vibejs@gmail.com>",
-  "license": "Apache License 2.0",
-  "bugs": {
-    "url": "https://github.com/vibejs/vibejs-namespaces/issues"
-  },
-  "homepage": "https://github.com/vibejs/vibejs-namespaces",
-  "dependencies": {
-  },
-  "devDependencies": {
-    "grunt": ">=0.4.5",
-    "grunt-changelog": ">=0.2.2",
-    "grunt-cli": ">=0.1.13",
-    "grunt-contrib-coffee": ">=0.12.0",
-    "grunt-contrib-copy": ">=0.7.0",
-    "grunt-contrib-uglify": ">=0.6.0",
-    "grunt-istanbul": ">=0.3.0",
-    "grunt-vows": ">=0.4.1",
-    "vows" : ">=0.8.0",
-    "coffeescript" : ">=1.8.0"
-  }
+    "name": "vibejs-namespaces",
+    "version": "0.0.2",
+    "description": "namespaces adds namespaces to your javascript/coffee-script application",
+    "main": "./src/namespaces.coffee",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/vibejs/vibejs-namespaces.git"
+    },
+    "keywords": [
+        "namespace"
+    ],
+    "author": "vibejs <github.vibejs@gmail.com>",
+    "license": "Apache License 2.0",
+    "bugs": {
+        "url": "https://github.com/vibejs/vibejs-namespaces/issues"
+    },
+    "homepage": "https://github.com/vibejs/vibejs-namespaces",
+    "scripts" : {
+        "test" : "grunt test"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+        "grunt": ">=0.4.5",
+        "grunt-changelog": ">=0.2.2",
+        "grunt-cli": ">=0.1.13",
+        "grunt-contrib-coffee": ">=0.12.0",
+        "grunt-contrib-copy": ">=0.7.0",
+        "grunt-contrib-uglify": ">=0.6.0",
+        "grunt-istanbul": ">=0.3.0",
+        "grunt-vows": ">=0.4.1",
+        "vows" : ">=0.8.0",
+        "coffeescript" : ">=1.8.0"
+    }
 }
