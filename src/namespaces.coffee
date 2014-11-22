@@ -25,7 +25,7 @@ exports = if typeof(global) == 'undefined' then window else global
 #
 # @type Object
 # @readonly
-# @memberof vibe.namespace
+# @memberof vibejs.lang.namespace
 nsDefaultContext = exports
 
 
@@ -36,7 +36,7 @@ nsDefaultContext = exports
 #
 # @type {RegExp}
 # @readonly
-# @memberof vibe.namespace
+# @memberof vibejs.lang.namespace
 NS_QNAME_RE = /^[a-zA-Z_$]+[a-zA-Z_$0-9]*(?:[.][a-zA-Z_$]+[a-zA-Z_$0-9]*)*$/
 
 
@@ -55,7 +55,7 @@ NS_QNAME_RE = /^[a-zA-Z_$]+[a-zA-Z_$0-9]*(?:[.][a-zA-Z_$]+[a-zA-Z_$0-9]*)*$/
 # @property {Object} nsFunctions - the functions declared in this or the empty hash (readonly)
 # @property {Object} nsObjects - the objects declared in this or the empty hash (readonly)
 # @property {Object} nsScalars - the scalars declared in this or the empty hash (readonly)
-# @memberof vibe.namespace
+# @memberof vibejs.lang.namespace
 class Namespace
 
     constructor: (localName, parent, logger) ->
@@ -65,7 +65,7 @@ class Namespace
 
         if parent and not (parent instanceof Namespace)
 
-            throw new TypeError 'parent must be an instance of vibe.namespace.Namespace'
+            throw new TypeError 'parent must be an instance of vibejs.lang.namespace.Namespace'
 
         # make sure that the logger has a debug method
         if logger and not 'function' == typeof logger.debug
@@ -271,7 +271,7 @@ class Namespace
 #                                      it cannot be extended
 # @option options Object:null extend optional namespace extension
 # @option options Object:null logger optional logger for outputting debug information
-# @memberof vibe.namespace
+# @memberof vibejs.lang.namespaces
 exports.namespace = (qname, options = {})->
 
     result = null
@@ -344,8 +344,8 @@ exports.namespace = (qname, options = {})->
     result
 
 
-# @namespace vibe.namespace#frozen
-namespace 'vibe.namespace',
+# @namespace vibejs.lang.namespace#frozen
+namespace 'vibejs.lang.namespace',
 
     freeze : true
 

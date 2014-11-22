@@ -27,7 +27,7 @@ will simply not do the trick and that yet another namespace providing library ne
  - namespaces can be frozen so that they can no longer be extended
  - namespaces can be traversed using Namespace#nsParent or Namespace#nsChildren(...) or simply by
    accessing the namespace objects directly from within their declaring context
- - vibe.namespace namespace exposing the namespace function, the Namespace class and 
+ - vibejs.lang.namespace namespace exposing the namespace function, the Namespace class and 
    a few other useful things
  - COMING SOON: namespaces can be made non enumerable, making them sort of private/internal
 

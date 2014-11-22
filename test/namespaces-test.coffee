@@ -47,14 +47,14 @@ assert.isNotFrozen = (obj, message = null) ->
 
 
 vows
-    .describe 'vibe.namespace'
+    .describe 'vibejs.lang.namespace'
     .addBatch
 
         'NS_QNAME_RE' :
 
             topic : ->
 
-                vibe.namespace.NS_QNAME_RE
+                vibejs.lang.namespace.NS_QNAME_RE
 
             'must not match empty string or whitespace' : (topic) ->
 
@@ -101,7 +101,7 @@ vows
 
             topic : ->
 
-                vibe.namespace.nsDefaultContext
+                vibejs.lang.namespace.nsDefaultContext
 
             'must be equal to window (browser) or global (node)' : (topic) ->
 
@@ -138,10 +138,10 @@ vows
                     namespace 'toplevelns', null
 
                 assert.doesNotThrow cb
-                assert.isTrue vibe.namespace.nsDefaultContext['toplevelns'] instanceof vibe.namespace.Namespace
-                assert.deepEqual vibe.namespace.nsDefaultContext['toplevelns'], {}
+                assert.isTrue vibejs.lang.namespace.nsDefaultContext['toplevelns'] instanceof vibejs.lang.namespace.Namespace
+                assert.deepEqual vibejs.lang.namespace.nsDefaultContext['toplevelns'], {}
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'must fall back to nsDefaultContext on undefined context' : ->
 
@@ -150,57 +150,57 @@ vows
                     namespace 'toplevelns', undefined
 
                 assert.doesNotThrow cb
-                assert.isTrue vibe.namespace.nsDefaultContext['toplevelns'] instanceof vibe.namespace.Namespace
-                assert.deepEqual vibe.namespace.nsDefaultContext['toplevelns'], {}
+                assert.isTrue vibejs.lang.namespace.nsDefaultContext['toplevelns'] instanceof vibejs.lang.namespace.Namespace
+                assert.deepEqual vibejs.lang.namespace.nsDefaultContext['toplevelns'], {}
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'must return declared namespace' : ->
 
                 top = namespace 'toplevelns'
                 assert.isNotNull top
-                assert.deepEqual vibe.namespace.nsDefaultContext['toplevelns'], top
+                assert.deepEqual vibejs.lang.namespace.nsDefaultContext['toplevelns'], top
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'must return declared sub namespace' : ->
 
                 sub = namespace 'toplevelns.sub'
                 assert.isNotNull sub
-                assert.deepEqual vibe.namespace.nsDefaultContext['toplevelns'].sub, sub
+                assert.deepEqual vibejs.lang.namespace.nsDefaultContext['toplevelns'].sub, sub
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'declared namespace must be a defined property of its context' : ->
 
                 namespace 'toplevelns'
-                assert.isTrue vibe.namespace.nsDefaultContext.hasOwnProperty 'toplevelns'
+                assert.isTrue vibejs.lang.namespace.nsDefaultContext.hasOwnProperty 'toplevelns'
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'declared namespace must be an enumerable property of its context' : ->
 
                 namespace 'toplevelns'
                 found = false
-                assert.isEnumerable vibe.namespace.nsDefaultContext, 'toplevelns'
+                assert.isEnumerable vibejs.lang.namespace.nsDefaultContext, 'toplevelns'
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'declared namespace must be a deletable property of its context' : ->
 
                 namespace 'toplevelns'
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
-                assert.isUndefined vibe.namespace.nsDefaultContext['toplevelns']
+                assert.isUndefined vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'must create hierarchy of namespaces from a qualified identifier' : ->
 
                 sub = namespace 'toplevelns.sub'
-                top = vibe.namespace.nsDefaultContext['toplevelns']
+                top = vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
                 assert.deepEqual top, { sub : sub }
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'must not redeclare existing namespace' : ->
 
@@ -210,7 +210,7 @@ vows
 
                 assert.deepEqual top, { a: 1, sub : {} }
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'must fail when encountering non namespace and not redeclare existing key' : ->
 
@@ -223,7 +223,7 @@ vows
 
                 assert.throws cb, Error
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
         'Namespace instances must have default properties and methods that are not enumerable' :
 
@@ -235,7 +235,7 @@ vows
                 assert.isNotEnumerable top, 'nsLocalName'
                 assert.equal top.nsLocalName, 'toplevelns'
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
  
             'nsQualifiedName' : ->
 
@@ -245,18 +245,18 @@ vows
                 assert.isNotEnumerable sub, 'nsQualifiedName'
                 assert.equal sub.nsQualifiedName, 'toplevelns.sub'
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'nsParent' : ->
 
                 sub = namespace 'toplevelns.sub'
-                top = vibe.namespace.nsDefaultContext['toplevelns']
+                top = vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
                 assert.isDefined top, 'nsParent'
                 assert.isNotEnumerable top, 'nsParent'
                 assert.deepEqual top, sub.nsParent
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'nsChildren' : ->
 
@@ -266,7 +266,7 @@ vows
                 assert.isNotEnumerable top, 'nsChildren'
                 assert.isFunction top.nsChildren
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'nsFrozen' : ->
 
@@ -276,7 +276,7 @@ vows
                 assert.isNotEnumerable top, 'nsFrozen'
                 assert.isFalse top.nsFrozen
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'nsFreeze' : ->
 
@@ -286,7 +286,7 @@ vows
                 assert.isNotEnumerable top, 'nsFreeze'
                 assert.isFunction top.nsFreeze
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             'nsExtend' : ->
 
@@ -296,7 +296,7 @@ vows
                 assert.isNotEnumerable top, 'nsExtend'
                 assert.isFunction top.nsExtend
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
             '_logger' : ->
 
@@ -304,7 +304,7 @@ vows
 
                 assert.isNotEnumerable top, '_logger'
 
-                delete vibe.namespace.nsDefaultContext['toplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['toplevelns']
 
         'namespace with option freeze set to true must' :
 
@@ -340,7 +340,7 @@ vows
 
             teardown : ->
 
-                delete vibe.namespace.nsDefaultContext['frozentoplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['frozentoplevelns']
 
         'Namespace#nsExtend()' :
 
@@ -372,7 +372,7 @@ vows
 
             teardown : ->
 
-                delete vibe.namespace.nsDefaultContext['extendedtoplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['extendedtoplevelns']
 
         'Namespace#nsChildren()' :
 
@@ -467,7 +467,7 @@ vows
 
             teardown : ->
 
-                delete vibe.namespace.nsDefaultContext['filteredtoplevelns']
+                delete vibejs.lang.namespace.nsDefaultContext['filteredtoplevelns']
 
     .export module
 
