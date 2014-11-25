@@ -16,11 +16,11 @@
         "url": "https://github.com/vibejs/vibejs-namespaces/issues"
     },
     "homepage": "https://github.com/vibejs/vibejs-namespaces",
-    "scripts" : {
-        "test" : "grunt test"
+    "scripts": {
+        "test": "grunt test"
     },
     "dependencies": {
-        "coffee-script" : ">=1.8.0"
+        "coffee-script": ">=1.8.0"
     },
     "devDependencies": {
         "grunt": ">=0.4.5",
@@ -31,6 +31,7 @@
         "grunt-contrib-uglify": ">=0.6.0",
         "grunt-istanbul": ">=0.3.0",
         "grunt-vows": ">=0.4.1",
-        "vows" : "vibejs/vows.git"
+        "semver": ">=4.1.0",
+        "vows": "vibejs/vows.git"
     }
 }

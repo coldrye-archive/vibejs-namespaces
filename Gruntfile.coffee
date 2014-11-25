@@ -1,5 +1,6 @@
 # TODO:FILEHEADER
 
+semver = require('semver').parse
 
 # we do not want the below grunt tasks to show up
 # in our task list
@@ -246,6 +247,20 @@ module.exports = (grunt) ->
         latebind grunt
 
         grunt.task.run 'vows'
+
+    grunt.registerTask 'bump-version', 'bumps the version number by one, either :major, :minor or :patch', (mode = 'patch') ->
+
+        if not (mode in ['major', 'minor', 'patch'])
+
+            throw new Error 'mode must be one of major, minor or patch which is the default'
+
+        pkg = grunt.config.get 'pkg'
+        version = semver pkg.version
+        version.inc mode
+        grunt.file.write 'package.json.old', JSON.stringify pkg, null, '    '
+        pkg.version = version.toString()
+        grunt.file.write 'package.json', JSON.stringify pkg, null, '    '
+        grunt.log.write "bumped version to #{version}"
 
     grunt.registerTask 'default', [
         'clean', 'build-javascript', 'coverage', 'test', 
