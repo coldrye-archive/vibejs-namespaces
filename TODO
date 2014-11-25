@@ -1,6 +1,10 @@
 
 TODO
 
+- missing vibejs namespace tests
+
+- missing readonly tests
+
 - missing meteor tests
 
 - missing debug log messages
@@ -8,4 +12,6 @@ TODO
 - generate changelog from tags
 
 - generate test/coverage result pages
+
+- wiki
 

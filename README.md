@@ -22,7 +22,7 @@ will simply not do the trick and that yet another namespace providing library ne
 
 ### Features
 
- - namespace factory registered with the global object for declaring namespaces
+ - namespace factory registered with the global context for declaring namespaces
  - namespaces can be extended either on creation or afterwards using the Namespace#nsExtend method
  - namespaces can be bound to either the global context or a custom context
  - namespaces can be frozen so that they can no longer be extended
@@ -30,7 +30,10 @@ will simply not do the trick and that yet another namespace providing library ne
    accessing the namespace objects directly from within their declaring context
  - vibejs.lang.namespace namespace exposing the namespace function, the Namespace class and 
    a few other useful things
- - COMING SOON: namespaces can be made non enumerable, making them sort of private/internal
+ - all or individual members of a namespace can be made non enumerable by prefixing their keys with '_'
+ - all or individual members of a namespace can be made non configurable, i.e. readonly
+ - namespaces can be made non enumerable, making them sort of private/internal, 
+   by prefixing their local name with '_'
 
 
 ## Installation

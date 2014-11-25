@@ -25,8 +25,12 @@ exports = if typeof(global) == 'undefined' then window else global
 #
 # @type Object
 # @readonly
-# @memberof vibejs.lang.namespace
+# @memberof vibejs.lang
 nsDefaultContext = exports
+
+
+# Guard preventing Namespace constructor from being called directly.
+nsDeclaring = false
 
 
 # The regular expression used for validating user provided namespace
@@ -36,7 +40,7 @@ nsDefaultContext = exports
 #
 # @type {RegExp}
 # @readonly
-# @memberof vibejs.lang.namespace
+# @memberof vibejs.lang.constants
 NS_QNAME_RE = /^[a-zA-Z_$]+[a-zA-Z_$0-9]*(?:[.][a-zA-Z_$]+[a-zA-Z_$0-9]*)*$/
 
 
@@ -55,10 +59,14 @@ NS_QNAME_RE = /^[a-zA-Z_$]+[a-zA-Z_$0-9]*(?:[.][a-zA-Z_$]+[a-zA-Z_$0-9]*)*$/
 # @property {Object} nsFunctions - the functions declared in this or the empty hash (readonly)
 # @property {Object} nsObjects - the objects declared in this or the empty hash (readonly)
 # @property {Object} nsScalars - the scalars declared in this or the empty hash (readonly)
-# @memberof vibejs.lang.namespace
+# @memberof vibejs.lang
 class Namespace
 
     constructor: (localName, parent, logger) ->
+
+        if not nsDeclaring
+
+            throw new TypeError 'Namespace must not be instantiated directly. Use namespace instead.'
 
         cachedQualifiedName = null
         frozen = false
@@ -172,17 +180,60 @@ class Namespace
 
                     throw new Error "namespace #{@nsQualifiedName} is frozen and cannot be extended."
 
-                (declarations, override = false) ->
+                (options = {}) ->
 
                     @_logger?.debug "Namespace:nsExtend:extending namespace #{@nsQualifiedName}"
+
+                    override = if options.override == true then true else false
+
+                    console.log override
+
+                    configurable = if options.configurable == false then false else true
+                    declarations = options.extend || {}
 
                     for key of declarations
 
                         if @[key] is undefined or override
 
-                            @[key] = declarations[key]
+                            enumerable = /^__/.exec(key) is null
 
-                        @_logger?.debug "Namespace:nsExtend:added #{key} = #{declarations[key]}"
+                            @_logger?.debug "Namespace:nsExtend:defining #{key} = #{declarations[key]}"
+
+                            if not enumerable
+
+                                @_logger?.debug "Namespace:nsExtend:defining #{key} non enumerable"
+
+                            if not configurable
+
+                                @_logger?.debug "Namespace:nsExtend:defining #{key} non configurable"
+
+                            if not configurable or not enumerable
+
+                                applier = (key, value) ->
+
+                                    Object.defineProperty @, key,
+
+                                        enumerable : enumerable 
+
+                                        configurable : configurable 
+
+                                        writable : configurable 
+
+                                        value : value
+
+                                applier.call @, key, declarations[key]
+
+                                @_logger?.debug "Namespace:nsExtend:defined #{key}"
+
+                            else
+
+                                @[key] = declarations[key]
+
+                                @_logger?.debug "Namespace:nsExtend:defined #{key}"
+
+                        else
+
+                            @_logger?.debug "Namespace:nsExtend:not overriding existing #{key}"
 
                     @
 
@@ -271,7 +322,7 @@ class Namespace
 #                                      it cannot be extended
 # @option options Object:null extend optional namespace extension
 # @option options Object:null logger optional logger for outputting debug information
-# @memberof vibejs.lang.namespaces
+# @memberof vibejs.lang
 exports.namespace = (qname, options = {})->
 
     result = null
@@ -284,7 +335,7 @@ exports.namespace = (qname, options = {})->
 
         throw new TypeError 'logger does not have a debug(...) method.'
 
-    logger?.debug "namespace:get or declare namespace #{qname} in context #{context.name || if context == nsDefaultContext then 'namespaces.nsDefaultContext' else 'user defined'}"
+    logger?.debug "namespace:get or declare namespace #{qname} in context #{context.name || if context == nsDefaultContext then 'default' else 'user defined'}"
 
     # make sure that qname is valid
     if qname is null or
@@ -318,9 +369,21 @@ exports.namespace = (qname, options = {})->
                     throw new Error "namespace #{parent.nsQualifiedName} is frozen and cannot be extended."
 
             # declare and finalize namespace
+            nsDeclaring = true
             localns = new Namespace localName, parent, logger
+            nsDeclaring = false
 
-            currentContext[localName] = localns
+            if /^_/.exec(localName) is null
+
+                currentContext[localName] = localns
+
+            else
+
+                Object.defineProperty currentContext, localName,
+
+                    enumerable : false
+
+                    value : localns
 
         else if not (localns instanceof Namespace)
 
@@ -335,27 +398,35 @@ exports.namespace = (qname, options = {})->
 
     if options.extend
 
-        result.nsExtend options.extend
+        result.nsExtend options
 
-    if options.freeze
+    if options.freeze == true
 
         result.nsFreeze()
 
     result
 
 
-# @namespace vibejs.lang.namespace#frozen
-namespace 'vibejs.lang.namespace',
+# @namespace vibejs.lang
+namespace 'vibejs.lang',
 
-    freeze : true
+    configurable : false
 
     extend :
-
-        NS_QNAME_RE : NS_QNAME_RE
 
         nsDefaultContext : nsDefaultContext
 
         Namespace : Namespace
 
         namespace : namespace
+
+
+# @namespace vibejs.lang.constants
+namespace 'vibejs.lang.constants',
+
+    configurable : false
+
+    extend :
+
+        NS_QNAME_RE : NS_QNAME_RE
 
