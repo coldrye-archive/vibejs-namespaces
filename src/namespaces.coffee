@@ -186,8 +186,6 @@ class Namespace
 
                     override = if options.override == true then true else false
 
-                    console.log override
-
                     configurable = if options.configurable == false then false else true
                     declarations = options.extend || {}
 
