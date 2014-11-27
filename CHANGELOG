@@ -1,0 +1,56 @@
+Release v0.0.4 (2014-11-27)
+
+Bug Fixes:
+
+ - removing stray console.log
+
+Miscellaneous:
+
+ - updated TODO
+
+
+Release v0.0.3 (2014-11-27)
+
+New Features:
+
+ - added support for non enumerable namespaces and namespace members
+ - added support for non configurable namespace members
+ - nsExtend now accepts single options parameter similar to namespace
+
+Bug Fixes:
+
+ - removed dangling comma
+
+Miscellaneous:
+
+ - integrated travis-ci
+ - added travis-ci build status badge
+ - for now we must use our clone of vows until PR-329 gets integrated
+ - made coffee-script a runtime dependency
+ - corrected coffee-script package name
+ - removing unwanted scripts from generated npm package
+
+
+Release v0.0.2 (2014-11-27)
+
+New Features:
+
+ - now exporting to vibejs.lang.namespace
+
+
+Release v0.0.1 (2014-11-27)
+
+Bug Fixes:
+
+ - fixing issue with overriding existing properties found during testing
+
+Miscellaneous:
+
+ - meteor package name is now derived from package manifest
+ - updated README
+ - updated package manifest
+ - updated todo list
+ - nsChildren cleanup and improved error handling
+ - implemented tests
+ - fleshing out existing errors in build tasks
+
