@@ -1,3 +1,29 @@
+Release v0.0.5 (2014-11-28)
+
+New Features:
+
+ - #2 users are now able to hide namespaces by making them non enumerable
+ - #2 users are now able to hide individual members by making them non enumerable
+ - #3 individual members can now be made non configurable
+
+API Changes:
+
+ - #1 now exporting to vibejs.lang and vibejs.lang.constants
+
+Deprecated:
+
+ - #1 no longer exporting to vibejs.lang.namespace
+
+Miscellaneous:
+
+ - added fuse hidden files to ignore list
+ - now using an enhanced version of grunt-changelog, still waiting for the pull requests to be accepted
+ - for now we must use our clone of grunt-changelog
+ - added grunt bump-version task
+ - added semver as a dev dependency
+ - bumped version to 0.0.5
+
+
 Release v0.0.4 (2014-11-27)
 
 Bug Fixes:

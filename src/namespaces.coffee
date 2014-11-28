@@ -193,7 +193,7 @@ class Namespace
 
                         if @[key] is undefined or override
 
-                            enumerable = /^__/.exec(key) is null
+                            enumerable = /^_/.exec(key) is null
 
                             @_logger?.debug "Namespace:nsExtend:defining #{key} = #{declarations[key]}"
 

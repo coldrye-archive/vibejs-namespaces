@@ -111,6 +111,14 @@ determinePreviousTag = (grunt, tag, callback) ->
         callback previousTag
 
 
+changelogBuildPartial = (collectionName, entryName, title) ->
+
+    return "{{#if #{collectionName}}}#{title}:\n\n{{#each #{collectionName}}}{{> #{entryName}}}{{/each}}\n{{/if}}"
+
+
+changelogEntryPartial = ' - {{this}}\n'
+
+
 module.exports = (grunt) ->
 
     grunt.initConfig
@@ -170,20 +178,22 @@ module.exports = (grunt) ->
 
                     sections :
 
-                        features : /^\s*- feature (#\d+):?(.*)$/gim
-                        fixes : /^\s*- fixes (#\d+):?(.*)$/gim
-                        others : /^\s*- (.*)$/gim
+                        apichanges : /^\s*- changed (#\d+):?(.*)$/i
+                        deprecations : /^\s*- deprecated (#\d+):?(.*)$/i
+                        features : /^\s*- feature (#\d+):?(.*)$/i
+                        fixes : /^\s*- fixes (#\d+):?(.*)$/i
+                        others : /^\s*- (.*)$/
 
-                    template : 'Release v<%= pkg.version %> ({{date}})\n\n{{> features }}{{> fixes }}{{> others }}' 
+                    template : 'Release v<%= pkg.version %> ({{date}})\n\n{{> features }}{{> fixes }}{{> apichanges }}{{> deprecations }}{{> others }}' 
 
                     partials :
 
-                        features : '{{#if features}}New Features:\n\n{{#each features}}{{> feature}}{{/each}}\n{{/if}}'
-                        feature : ' - {{this}}\n'
-                        fixes : '{{#if fixes}}Bug Fixes:\n\n{{#each fixes}}{{> fix}}{{/each}}\n{{/if}}'
-                        fix : ' - {{this}}\n'
-                        others : '{{#if others}}Miscellaneous:\n\n{{#each others}}{{> other}}{{/each}}\n{{/if}}'
-                        other : ' - {{this}}\n'
+                        entry : changelogEntryPartial
+                        apichanges : changelogBuildPartial 'apichanges', 'entry', 'API Changes'
+                        deprecations : changelogBuildPartial 'deprecations', 'entry', 'Deprecated'
+                        features : changelogBuildPartial 'features', 'entry', 'New Features'
+                        fixes : changelogBuildPartial 'fixes', 'entry', 'Bug Fixes'
+                        others : changelogBuildPartial 'others', 'entry', 'Miscellaneous'
 
         meteor:
 
