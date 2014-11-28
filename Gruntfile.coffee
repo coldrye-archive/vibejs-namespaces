@@ -324,28 +324,33 @@ module.exports = (grunt) ->
         'build-uglified', 'package-npm', 'package-meteor'
     ]
 
-    grunt.registerTask 'update-changelog', ->
+    grunt.registerTask 'update-changelog', (after, before) ->
 
         latebind grunt
 
-        done = this.async()
+        changelogTask = 'changelog:default'
 
-        pkg = grunt.config.get 'pkg'
-        tag = "v#{pkg.version}"
+        if after
 
-        determinePreviousTag grunt, tag, (previousTag) ->
+            grunt.task.run "#{changelogTask}:#{after}:#{before}"
 
-            changelogTask = 'changelog:default'
+        else
 
-            if previousTag is null
+            done = this.async()
 
-                changelogTask += ":commit:#{tag}"
+            pkg = grunt.config.get 'pkg'
+            tag = "v#{pkg.version}"
+            determinePreviousTag grunt, tag, (previousTag) ->
 
-            else
+                if previousTag is null
 
-                changelogTask += ":#{previousTag}:#{tag}"
+                    changelogTask += ":commit:#{tag}"
 
-            grunt.task.run changelogTask
+                else
 
-            done()
+                    changelogTask += ":#{previousTag}:#{tag}"
+
+                grunt.task.run changelogTask
+
+                done()
 

@@ -16,12 +16,13 @@ Deprecated:
 
 Miscellaneous:
 
+ - update-changelog task now accepts after and before as optional parameters to make things easier with tagging and updating the changelog
+ - fixing issue with grunt-changelog section regexes which were defined using /gim instead of just /i
  - added fuse hidden files to ignore list
  - now using an enhanced version of grunt-changelog, still waiting for the pull requests to be accepted
  - for now we must use our clone of grunt-changelog
  - added grunt bump-version task
  - added semver as a dev dependency
- - bumped version to 0.0.5
 
 
 Release v0.0.4 (2014-11-27)
