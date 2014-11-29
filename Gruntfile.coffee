@@ -48,7 +48,7 @@ latebind = (grunt) ->
                 grunt.file.copy './build/javascript/src/' + path, target + path
 
             # copy documentation
-            for path in ['README.md', 'LICENSE']
+            for path in ['README.md', 'LICENSE', 'CHANGELOG']
 
                 grunt.file.copy './' + path, target + path
 
@@ -84,7 +84,7 @@ latebind = (grunt) ->
             grunt.file.write target + 'package.js', content
 
             # copy documentation
-            for path in ['README.md', 'LICENSE']
+            for path in ['README.md', 'LICENSE', 'CHANGELOG']
 
                 grunt.file.copy './' + path, target + path
 
