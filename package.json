@@ -1,6 +1,6 @@
 {
     "name": "vibejs-namespaces",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "namespaces adds namespaces to your javascript/coffee-script application",
     "main": "./src/namespaces.coffee",
     "repository": {
