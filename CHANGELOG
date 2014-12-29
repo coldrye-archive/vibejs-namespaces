@@ -1,3 +1,15 @@
+Release v0.0.6 (2014-12-29)
+
+Bug Fixes:
+
+ - #5 nsChildren now bound to instance
+ - #4 introduced guard to prevent exports from being exported twice
+
+Miscellaneous:
+
+ - included changelog in meteor and npm package
+
+
 Release v0.0.5 (2014-11-28)
 
 New Features:
