@@ -270,46 +270,46 @@ unless exports.namespace?
 
                         @
 
-        # Returns an object containing the children of this or this if no filter object or function was
-        # specified.
-        #
-        # The filter function or method must accept two arguments, namely key and value.
-        #
-        # @method nsChildren
-        # @param Function|Object:null a filter function or object with a filter method or function
-        # @return Object the filtered children or this
-        # @throws Error thrown in case that filter is not null and not a function or object
-        #               with either a filter function or method
-        Object.defineProperty @::, 'nsChildren',
+            # Returns an object containing the children of this or this if no filter object or function was
+            # specified.
+            #
+            # The filter function or method must accept two arguments, namely key and value.
+            #
+            # @method nsChildren
+            # @param Function|Object:null a filter function or object with a filter method or function
+            # @return Object the filtered children or this
+            # @throws Error thrown in case that filter is not null and not a function or object
+            #               with either a filter function or method
+            Object.defineProperty @, 'nsChildren',
 
-            enumerable : false
+                enumerable : false
 
-            get : ->
+                get : ->
 
-                (filter = null) ->
+                    (filter = null) ->
 
-                    result = @
+                        result = @
 
-                    actualFilter = filter
-                    if filter != null and 'object' == typeof filter
+                        actualFilter = filter
+                        if filter != null and 'object' == typeof filter
 
-                        actualFilter = filter.filter
+                            actualFilter = filter.filter
 
-                    if actualFilter is undefined
+                        if actualFilter is undefined
 
-                        throw new TypeError 'filter must be either a function or object with a filter method or function'
+                            throw new TypeError 'filter must be either a function or object with a filter method or function'
 
-                    if actualFilter
+                        if actualFilter
 
-                        result = {}
+                            result = {}
 
-                        for key of @
+                            for key of @
 
-                            if actualFilter(key, @[key])
+                                if actualFilter(key, @[key])
 
-                                result[key] = @[key]
+                                    result[key] = @[key]
 
-                    result
+                        result
 
 
     # The function namespace models a factory for instances of type Namespace.
