@@ -360,7 +360,7 @@ module.exports = (grunt) ->
 
                 if previousTag is null
 
-                    changelogTask += ":commit:#{tag}"
+                    changelogTask += "::commit"
 
                 else
 
